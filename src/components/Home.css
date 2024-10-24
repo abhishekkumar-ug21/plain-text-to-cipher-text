@@ -1,0 +1,14 @@
+/* Home.css */
+.home-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; /* Center the content */
+    /* height: 100vh;  */
+    /* Full viewport height */
+    padding: 20px;
+    color: white;
+    /* background-color: #1a1a1a; */
+     /* Optional: Set background color */
+  }
+  

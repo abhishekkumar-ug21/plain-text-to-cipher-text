@@ -1,0 +1,15 @@
+/* navbar.css */
+.navbar {
+    background-color: rgb(62, 59, 59) !important; /* Ensure navbar color is black */
+  }
+  
+  .navbar-title {
+    flex-grow: 1;
+  }
+  
+  .navbar-buttons {
+    display: flex;
+    justify-content: center;
+    flex-grow: 2;
+  }
+  

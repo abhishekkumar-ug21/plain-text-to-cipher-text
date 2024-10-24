@@ -1,0 +1,8 @@
+.greeting-container {
+    padding: 20px;
+    text-align: center;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7); /* Slightly transparent black */
+    border-radius: 8px;
+    margin: 20px;
+}
