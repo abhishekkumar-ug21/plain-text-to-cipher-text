@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './styles/GenerateCipher.css';
 
+// const apiUrl = process.env.REACT_APP_API_URL; // Use the environment variable
+
 const GenerateCipher = () => {
   const [plainText, setPlainText] = useState('');
-
-  const [cipherText, setCipherText] = useState("grwfefwefwe")
+  const [cipherText, setCipherText] = useState('');
   const [copyText, setCopyText] = useState("Copy Code");
+  const [error, setError] = useState(''); // State for error messages
 
   const handleCopy = () => {
     navigator.clipboard.writeText(cipherText);
@@ -18,9 +20,12 @@ const GenerateCipher = () => {
 
   const handleGenerate = async () => {
     try {
-      const response = await axios.post('/api/generate-cipher', { text: plainText });
+      // const response = await axios.post(`${process.env.REACT_APP_API_URL}/generate-cipher`, { plainText });
+      const response = await axios.post(`http://localhost:3000/api/generate-cipher`, { plainText });
       setCipherText(response.data.cipherText);
+      setError(''); // Clear error if successful
     } catch (error) {
+      setError('Error generating cipher. Please try again.'); // Set error message
       console.error('Error generating cipher:', error);
     }
   };
@@ -34,33 +39,18 @@ const GenerateCipher = () => {
           value={plainText}
           onChange={(e) => setPlainText(e.target.value)}
           placeholder="Enter your plain text here..."
-        ></textarea>
+        />
         <button onClick={handleGenerate} className="generate-button">Generate</button>
-        
       </div>
-      {/* <div>
-        <button onClick={handleGenerate} className="generate-button">Generate1</button>
-        <button onClick={handleGenerate} className="generate-button">Generate2</button>
-        <button>Generate2</button>
-      </div> */}
 
-  
-
-      {/* {cipherText && (
-        <div className="cipher-result">
-          <h2>Cipher Text:</h2>
-          <p>{cipherText}</p>
-        </div>
-      )} */}
+      {error && <div className="error-message">{error}</div>} {/* Display error message */}
 
       {cipherText && (
         <div className="cipher-result">
           <div className="cipher-header">
             <h2>Cipher Text:</h2>
             <button className="copy-button" onClick={handleCopy}>
-
               {copyText}
-
             </button>
           </div>
           <pre className="cipher-output">{cipherText}</pre>
