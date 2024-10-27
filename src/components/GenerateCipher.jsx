@@ -4,13 +4,18 @@ import './styles/GenerateCipher.css';
 
 const GenerateCipher = () => {
   const [plainText, setPlainText] = useState('');
-  const [cipherText, setCipherText] = useState("grefwe")
+
+  const [cipherText, setCipherText] = useState("grwfefwefwe")
+  const [copyText, setCopyText] = useState("Copy Code");
 
   const handleCopy = () => {
     navigator.clipboard.writeText(cipherText);
-    alert("Copied to clipboard!");
+    setCopyText("Copied!");
+    setTimeout(() => {
+      setCopyText("Copy Code");
+    }, 2000);
   };
-  
+
   const handleGenerate = async () => {
     try {
       const response = await axios.post('/api/generate-cipher', { text: plainText });
@@ -38,18 +43,24 @@ const GenerateCipher = () => {
         <button onClick={handleGenerate} className="generate-button">Generate2</button>
         <button>Generate2</button>
       </div> */}
+
+  
+
       {/* {cipherText && (
         <div className="cipher-result">
           <h2>Cipher Text:</h2>
           <p>{cipherText}</p>
         </div>
       )} */}
+
       {cipherText && (
         <div className="cipher-result">
           <div className="cipher-header">
             <h2>Cipher Text:</h2>
             <button className="copy-button" onClick={handleCopy}>
-              Copy Code
+
+              {copyText}
+
             </button>
           </div>
           <pre className="cipher-output">{cipherText}</pre>
