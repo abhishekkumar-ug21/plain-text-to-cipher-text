@@ -12,7 +12,7 @@ const GenerateCipher = () => {
     setCopyText("Copied!");
     setTimeout(() => {
       setCopyText("Copy Code");
-    }, 2000); // Reset after 2 seconds
+    }, 2000);
   };
   const handleGenerate = async () => {
     try {
