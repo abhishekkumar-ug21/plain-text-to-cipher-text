@@ -1,0 +1,40 @@
+/* src/styles/GenerateCipher.css */
+
+.generate-cipher-container {
+    padding: 20px;
+    text-align: center;
+    color: white; /* Set text color to white */
+    background-color: #121212; /* Dark background to match theme */
+}
+
+.cipher-result {
+    margin-top: 20px;
+    color: #f5f5f5; /* Lighter white for the result text */
+    word-wrap: break-word;
+}
+
+input,
+.MuiInputBase-root {
+    color: white !important; /* Input text color to white */
+    background-color: #333 !important; /* Dark gray background for input */
+    border-radius: 4px;
+}
+
+/* .MuiOutlinedInput-root {
+    fieldset {
+        border-col 
+    }
+} */
+
+.MuiOutlinedInput-root.Mui-focused fieldset {
+    border-color: #00b0ff !important; /* Blue border when focused */
+}
+
+button {
+    color: #fff;
+    background-color: #1976d2;
+}
+
+button:hover {
+    background-color: #1565c0;
+}

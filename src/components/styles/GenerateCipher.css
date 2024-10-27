@@ -1,0 +1,86 @@
+/* src/styles/GenerateCipher.css */
+
+.generate-cipher-container {
+    padding: 20px;
+    text-align: center;
+    color: white;
+    background-color: #121212;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+.input-with-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.cipher-input {
+    width: 250%;
+    height: 250px;
+    padding: 10px;
+    color: white;
+    background-color: #333;
+    border: 1px solid #777;
+    border-radius: 4px 4px 0 0;
+    font-size: 16px;
+    resize: none; /* Disable resizing */
+}
+
+.generate-button {
+    width: 50%;
+    /* height: 10%; */
+    background-color: #1976d2;
+    color: white;
+    padding: 10px 0;
+    border: none;
+    border-radius: 0 0 4px 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.generate-button:hover {
+    background-color: #1565c0;
+}
+
+.cipher-result {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #222;
+    border: 1px solid #444;
+    border-radius: 4px;
+    color: #f5f5f5;
+    word-wrap: break-word;
+}
+.cipher-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.copy-button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+.copy-button:hover {
+    background-color: #444;
+}
+.cipher-output {
+    background-color: #1a1a1a;
+    color: #f5f5f5;
+    padding: 10px;
+    border-radius: 4px;
+    font-family: monospace;
+    white-space: pre-wrap;
+}
