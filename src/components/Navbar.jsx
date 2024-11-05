@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { Link } from 'react-router-dom';
-import './navbar.css'; // Import the CSS file
+import './styles/navbar.css'; // Import the CSS file
 
 const Navbar = () => {
   return (

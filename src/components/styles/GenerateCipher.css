@@ -1,4 +1,3 @@
-
 .generate-cipher-container {
     padding: 20px;
     text-align: center;
@@ -20,39 +19,50 @@ h2 {
 }
 
 .cipher-input {
-
-    /* width: 200%; */
-    width: 50%;
+    width: 100%; /* Full width within the container */
+    max-width: 600px;
     height: 150px;
-
     padding: 10px;
     color: white;
     background-color: #333;
     border: 1px solid #777;
-
     border-radius: 4px;
     font-size: 16px;
     resize: none;
+}
 
+.req-button {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 .generate-button {
-    width: 50%;
-
+    flex: 1 1 30%; /* Allow each button to take up to 30% of the container */
     background-color: #1976d2;
     color: white;
     padding: 10px 0;
     border: none;
-
     border-radius: 4px;
-
     cursor: pointer;
     font-size: 16px;
+    text-align: center;
+    min-width: 100px;
     margin-top: 10px;
+    box-sizing: border-box; /* Ensure padding doesn't affect width */
 }
 
 .generate-button:hover {
     background-color: #1565c0;
+}
+
+.cipher-container {
+    width: 80%; /* Reduced width for better fit on small screens */
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 .cipher-result {
@@ -63,10 +73,8 @@ h2 {
     border-radius: 4px;
     color: #f5f5f5;
     word-wrap: break-word;
-
     position: relative;
 }
-
 
 .cipher-header {
     display: flex;
@@ -85,11 +93,9 @@ h2 {
     font-size: 14px;
 }
 
-
 .copy-button:hover {
     background-color: #444;
 }
-
 
 .cipher-output {
     background-color: #1a1a1a;
@@ -98,6 +104,45 @@ h2 {
     border-radius: 4px;
     font-family: monospace;
     white-space: pre-wrap;
-
 }
 
+/* Responsive styling */
+@media (max-width: 768px) {
+    .cipher-input {
+        width: 100%;
+        height: 120px;
+    }
+
+    .generate-button {
+        width: 45%; /* Adjust button size to fit two per row */
+    }
+
+    .cipher-container {
+        width: 90%;
+    }
+}
+
+@media (max-width: 480px) {
+    .cipher-input {
+        width: 100%;
+        height: 100px;
+        font-size: 14px;
+    }
+
+    .generate-button {
+        width: 100%; /* Stack buttons vertically */
+    }
+
+    .cipher-container {
+        width: 100%;
+    }
+
+    .copy-button {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+
+    .cipher-output {
+        font-size: 14px;
+    }
+}
