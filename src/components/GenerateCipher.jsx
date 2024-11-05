@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import './styles/GenerateCipher.css';
 
-// const apiUrl = process.env.REACT_APP_API_URL; // Use the environment variable
-
 const GenerateCipher = () => {
+  const mode = import.meta.env.VITE_MODE; // Accessing the mode variable
+
   const [plainText, setPlainText] = useState('');
   const [cipherText, setCipherText] = useState('');
   const [copyText, setCopyText] = useState("Copy Code");
-  const [error, setError] = useState(''); // State for error messages
+  const [error, setError] = useState('');
+  
+  const cipherResultRef = useRef(null); // Create a ref for the cipher result container
 
   const handleCopy = () => {
     navigator.clipboard.writeText(cipherText);
@@ -18,56 +20,66 @@ const GenerateCipher = () => {
     }, 2000);
   };
 
-  const handleGenerate = async () => {
+  const handleGenerate = async (encryptionType) => {
     try {
-      // console.log("API URL: 1");
+      const url = mode === "pro" 
+        ? `${import.meta.env.VITE_API_URL}/generate-cipher` 
+        : `http://localhost:3000/api/generate-cipher`;
 
-      // console.log("API URL:", import.meta.env.VITE_API_URL); // Logging the API URL
-
-        // Make the API request
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/generate-cipher`, { plainText });
-
-      // console.log("API URL: 2");
-
-      //above code work but below code do not work
-
-      // console.log("API URL: 1");
-      // console.log("API URL:", import.meta.env.VITE_API_URL);
-
-      // console.log("Process object:", process);
-
-      // console.log("API URL:", import.meta.env.VITE_API_URL);
-
-      // // const response = await axios.post(`${import.meta.env.VITE_API_URL}/generate-cipher`, { plainText });
-      // const response = await axios.post(`${import.meta.env.VITE_API_URL}/generate-cipher`, { plainText });
-
-
-      // // const response = await axios.post(`${process.env.REACT_APP_API_URL}/generate-cipher`, { plainText });
-      // console.log("API URL: 2");
-
-      // const response = await axios.post(`${process.env.REACT_APP_API_URL}/generate-cipher`, { plainText });
-      // const response = await axios.post(`http://localhost:3000/api/generate-cipher`, { plainText });
+      console.log(`${mode} req`);
+      
+      const response = await axios.post(url, { 
+        plainText,
+        encryptionType // Send the encryption type to the API
+      });
+      
       setCipherText(response.data.cipherText);
-      setError(''); // Clear error if successful
+      setError(''); 
     } catch (error) {
-      // Check if the error is a response from the server
-      if (error.response) {
-        // The request was made, but the server responded with a status code that falls out of the range of 2xx
-        setError(`Error: ${error.response.data.message || 'Error generating cipher. Please try again.'}`);
-        console.error('Error response data:', error.response.data);
-      } else if (error.request) {
-        // The request was made but no response was received
-        setError('No response received from the server. Please check your network connection.');
-        console.error('Error request:', error.request);
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        setError(`Unexpected error: ${error.message}`);
-        console.error('Error message:', error.message);
-      }
+      handleError(error);
     }
-    
-    
   };
+
+  const handleError = (error) => {
+    if (error.response) {
+      setError(`Error: ${error.response.data.message || 'Error generating cipher. Please try again.'}`);
+      console.error('Error response data:', error.response.data);
+    } else if (error.request) {
+      setError('No response received from the server. Please check your network connection.');
+      console.error('Error request:', error.request);
+    } else {
+      setError(`Unexpected error: ${error.message}`);
+      console.error('Error message:', error.message);
+    }
+  };
+
+  // Effect to handle error display for 2 seconds
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => {
+        setError(''); // Clear error after 2 seconds
+      }, 2000);
+
+      return () => clearTimeout(timer); // Clean up the timer
+    }
+  }, [error]);
+
+  // Use ResizeObserver to observe changes in cipher result container
+  useEffect(() => {
+    const observer = new ResizeObserver(entries => {
+      for (let entry of entries) {
+        console.log('Size changed:', entry.contentRect.width, entry.contentRect.height);
+      }
+    });
+
+    if (cipherResultRef.current) {
+      observer.observe(cipherResultRef.current);
+    }
+
+    return () => {
+      observer.disconnect(); // Clean up the observer on component unmount
+    };
+  }, [cipherResultRef]);
 
   return (
     <div className="generate-cipher-container">
@@ -79,22 +91,27 @@ const GenerateCipher = () => {
           onChange={(e) => setPlainText(e.target.value)}
           placeholder="Enter your plain text here..."
         />
-        <button onClick={handleGenerate} className="generate-button">Generate</button>
+        <div className='req-button'>
+          <button onClick={() => handleGenerate('Caesar')} className="generate-button">Caesar</button>
+          <button onClick={() => handleGenerate('Playfair')} className="generate-button">Playfair</button>
+        </div>
       </div>
 
       {error && <div className="error-message">{error}</div>} {/* Display error message */}
 
-      {cipherText && (
-        <div className="cipher-result">
-          <div className="cipher-header">
-            <h2>Cipher Text:</h2>
-            <button className="copy-button" onClick={handleCopy}>
-              {copyText}
-            </button>
+      <div className='cipher-container'>
+        {cipherText && (
+          <div className="cipher-result" ref={cipherResultRef}>
+            <div className="cipher-header">
+              <h2>Cipher Text:</h2>
+              <button className="copy-button" onClick={handleCopy}>
+                {copyText}
+              </button>
+            </div>
+            <pre className="cipher-output">{cipherText}</pre>
           </div>
-          <pre className="cipher-output">{cipherText}</pre>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };
