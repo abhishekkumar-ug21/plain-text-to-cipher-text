@@ -18,15 +18,15 @@ const GenerateCipher = () => {
 
   const handleGenerate = async (encryptionType) => {
     try {
-      // const response = await axios.post(`${import.meta.env.VITE_API_URL}/generate-cipher`, { 
-      //   plainText,
-      //   encryptionType // Send the encryption type to the API
-      // });
-
-      const response = await axios.post(`http://localhost:3000/api/generate-cipher`, { 
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/generate-cipher`, { 
         plainText,
         encryptionType // Send the encryption type to the API
       });
+
+      // const response = await axios.post(`http://localhost:3000/api/generate-cipher`, { 
+        // plainText,
+        // encryptionType // Send the encryption type to the API
+      // });
       // console.log(response.data);
             
       setCipherText(response.data.cipherText);
