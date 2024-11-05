@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import './styles/GenerateCipher.css';
 
 
 const GenerateCipher = () => {
+  const cipherResultRef = useRef(null); // Create a ref for the cipher result container
+
   const mode = import.meta.env.VITE_MODE; // Accessing the mode variable
 
   const [plainText, setPlainText] = useState('');
@@ -67,6 +69,23 @@ const GenerateCipher = () => {
         return () => clearTimeout(timer); // Clean up the timer
       }
     }, [error]);
+
+      // Use ResizeObserver to observe changes in cipher result container
+  useEffect(() => {
+    const observer = new ResizeObserver(entries => {
+      for (let entry of entries) {
+        console.log('Size changed:', entry.contentRect.width, entry.contentRect.height);
+      }
+    });
+
+    if (cipherResultRef.current) {
+      observer.observe(cipherResultRef.current);
+    }
+
+    return () => {
+      observer.disconnect(); // Clean up the observer on component unmount
+    };
+  }, [cipherResultRef]);
 
   return (
     <div className="generate-cipher-container">
