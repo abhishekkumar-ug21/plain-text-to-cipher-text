@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './styles/GenerateCipher.css';
 
@@ -44,6 +44,17 @@ const GenerateCipher = () => {
       }
     }
   };
+
+    // Effect to handle error display for 1 second
+    useEffect(() => {
+      if (error) {
+        const timer = setTimeout(() => {
+          setError(''); // Clear error after 1 second
+        }, 2000);
+  
+        return () => clearTimeout(timer); // Clean up the timer
+      }
+    }, [error]);
 
   return (
     <div className="generate-cipher-container">
