@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './styles/GenerateCipher.css';
 
+
 const GenerateCipher = () => {
+  const mode = import.meta.env.VITE_MODE; // Accessing the mode variable
+
   const [plainText, setPlainText] = useState('');
   const [cipherText, setCipherText] = useState('');
   const [copyText, setCopyText] = useState("Copy Code");
@@ -18,18 +21,27 @@ const GenerateCipher = () => {
 
   const handleGenerate = async (encryptionType) => {
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/generate-cipher`, { 
-        plainText,
-        encryptionType // Send the encryption type to the API
-      });
+      if (mode === "pro") {
+        console.log("pro req");
 
-      // const response = await axios.post(`http://localhost:3000/api/generate-cipher`, { 
-        // plainText,
-        // encryptionType // Send the encryption type to the API
-      // });
-      // console.log(response.data);
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/generate-cipher`, { 
+            plainText,
+            encryptionType // Send the encryption type to the API
+        });
+        setCipherText(response.data.cipherText);
+
+    } else if (mode === "dev") {
+        console.log("dev req");
+        const response = await axios.post(`http://localhost:3000/api/generate-cipher`, { 
+            plainText,
+            encryptionType // Send the encryption type to the API
+        });
+        console.log(response.data);
+        setCipherText(response.data.cipherText);
+
+    }
             
-      setCipherText(response.data.cipherText);
+      // setCipherText(response.data.cipherText);
       setError(''); 
     } catch (error) {
       if (error.response) {
