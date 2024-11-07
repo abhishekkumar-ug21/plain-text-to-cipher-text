@@ -36,7 +36,7 @@ const GenerateCipher = () => {
       };
 
       // Conditionally add the key for certain encryption types
-      if (encryptionType === 'Playfair') { // Add more conditions for other encryption types if needed
+      if (encryptionType === 'Playfair' || encryptionType === 'Vigenere') { // Add more conditions for other encryption types if needed
         requestData.key = key;
       }
 
@@ -112,7 +112,8 @@ const GenerateCipher = () => {
         <div className='req-button'>
           <button onClick={() => handleGenerate('Caesar')} className="generate-button">Caesar</button>
           <button onClick={() => handleGenerate('Playfair')} className="generate-button">Playfair</button>
-          {/* Add more buttons here for future encryption types */}
+          <button onClick={() => handleGenerate('Vigenere')} className="generate-button">Vigenere</button>
+
         </div>
       </div>
 
