@@ -7,16 +7,17 @@ const GenerateCipher = () => {
 
   const [plainText, setPlainText] = useState('');
   const [cipherText, setCipherText] = useState('');
-  const [copyText, setCopyText] = useState("Copy Code");
+  const [copyText, setCopyText] = useState("Copy cipher");
   const [error, setError] = useState('');
-  
+  const [key, setKey] = useState(''); // New state for the key
+
   const cipherResultRef = useRef(null); // Create a ref for the cipher result container
 
   const handleCopy = () => {
     navigator.clipboard.writeText(cipherText);
     setCopyText("Copied!");
     setTimeout(() => {
-      setCopyText("Copy Code");
+      setCopyText("Copy cipher");
     }, 2000);
   };
 
@@ -28,11 +29,18 @@ const GenerateCipher = () => {
 
       console.log(`${mode} req`);
       
-      const response = await axios.post(url, { 
+      // Prepare the request payload
+      const requestData = {
         plainText,
-        encryptionType // Send the encryption type to the API
-      });
-      
+        encryptionType,
+      };
+
+      // Conditionally add the key for certain encryption types
+      if (encryptionType === 'Playfair') { // Add more conditions for other encryption types if needed
+        requestData.key = key;
+      }
+
+      const response = await axios.post(url, requestData);
       setCipherText(response.data.cipherText);
       setError(''); 
     } catch (error) {
@@ -91,9 +99,20 @@ const GenerateCipher = () => {
           onChange={(e) => setPlainText(e.target.value)}
           placeholder="Enter your plain text here..."
         />
+        
+        {/* Conditionally render key input for specific encryption types */}
+        <input
+          type="text"
+          className="key-input"
+          value={key}
+          onChange={(e) => setKey(e.target.value)}
+          placeholder="Enter key if needed"
+        />
+
         <div className='req-button'>
           <button onClick={() => handleGenerate('Caesar')} className="generate-button">Caesar</button>
           <button onClick={() => handleGenerate('Playfair')} className="generate-button">Playfair</button>
+          {/* Add more buttons here for future encryption types */}
         </div>
       </div>
 
