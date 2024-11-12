@@ -1,68 +1,72 @@
 .generate-cipher-container {
-    padding: 20px;
-    text-align: center;
-    color: white;
-    background-color: #121212;
-}
-
-h2 {
-    margin-bottom: 20px;
-}
-
-.input-with-button {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
+    padding: 20px;
+    color: white;
+    background: linear-gradient(135deg, #1a1a1a, #333);
+    text-align: center;
+    min-height: 100vh;
 }
 
-.cipher-input {
-    width: 100%; /* Full width within the container */
+.generate-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #00d4ff;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.generate-description {
+    font-size: 1.1rem;
+    color: #ccc;
+    margin-bottom: 20px;
+}
+
+.input-section {
+    width: 100%;
     max-width: 600px;
-    height: 150px;
-    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.cipher-input,
+.key-input {
+    width: 100%;
+    padding: 12px;
     color: white;
     background-color: #333;
     border: 1px solid #777;
     border-radius: 4px;
-    font-size: 16px;
+    font-size: 1rem;
     resize: none;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
-.req-button {
+.cipher-input {
+    height: 150px;
+}
+
+.button-group {
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
-    max-width: 600px;
-    margin: 0 auto;
+    margin-top: 15px;
 }
 
 .generate-button {
-    flex: 1 1 30%; /* Allow each button to take up to 30% of the container */
+    padding: 10px 20px;
     background-color: #1976d2;
     color: white;
-    padding: 10px 0;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 16px;
-    text-align: center;
-    min-width: 100px;
-    margin-top: 10px;
-    box-sizing: border-box; /* Ensure padding doesn't affect width */
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
 }
 
 .generate-button:hover {
     background-color: #1565c0;
-}
-
-.cipher-container {
-    width: 80%; /* Reduced width for better fit on small screens */
-    max-width: 600px;
-    margin: 0 auto;
 }
 
 .cipher-result {
@@ -72,15 +76,14 @@ h2 {
     border: 1px solid #444;
     border-radius: 4px;
     color: #f5f5f5;
-    word-wrap: break-word;
-    position: relative;
+    width: 100%;
+    max-width: 600px;
 }
 
 .cipher-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
 }
 
 .copy-button {
@@ -91,6 +94,7 @@ h2 {
     border-radius: 4px;
     cursor: pointer;
     font-size: 14px;
+    transition: background-color 0.3s ease;
 }
 
 .copy-button:hover {
@@ -98,78 +102,33 @@ h2 {
 }
 
 .cipher-output {
-    background-color: #1a1a1a;
-    color: #f5f5f5;
     padding: 10px;
+    background-color: #1a1a1a;
+    color: #00d4ff;
     border-radius: 4px;
     font-family: monospace;
     white-space: pre-wrap;
-    border: 1px solid white;
+    border: 1px solid #555;
+    font-size: 1rem;
 }
 
-/* Responsive styling */
+.error-message {
+    margin-top: 15px;
+    color: #ff4c4c;
+    font-size: 0.9rem;
+}
+
 @media (max-width: 768px) {
+    .generate-title {
+        font-size: 2rem;
+    }
+
     .cipher-input {
-        width: 100%;
         height: 120px;
     }
 
     .generate-button {
-        width: 45%; /* Adjust button size to fit two per row */
-    }
-
-    .cipher-container {
-        width: 90%;
+        padding: 8px 16px;
+        font-size: 0.9rem;
     }
 }
-
-@media (max-width: 480px) {
-    .cipher-input {
-        width: 100%;
-        height: 100px;
-        font-size: 14px;
-    }
-
-    .generate-button {
-        width: 100%; 
-    }
-
-    .cipher-container {
-        width: 100%;
-    }
-
-    .copy-button {
-        font-size: 12px;
-        padding: 4px 8px;
-    }
-
-    .cipher-output {
-        font-size: 14px;
-    }
-}
-
-
-.key-input {
-    background-color: black;
-    color: white;
-    width: 50%;
-    padding: 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    box-sizing: border-box;
-    transition: border-color 0.3s ease;
-  }
-  
-  .key-input:focus {
-    border-color: #007bff; /* Blue border on focus */
-    outline: none;
-  }
-  
-  .key-input::placeholder {
-    color: #999;
-    font-style: italic;
-  }
-  

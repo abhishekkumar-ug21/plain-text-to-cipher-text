@@ -3,15 +3,14 @@ import axios from 'axios';
 import './styles/GenerateCipher.css';
 
 const GenerateCipher = () => {
-  const mode = import.meta.env.VITE_MODE; // Accessing the mode variable
+  const mode = import.meta.env.VITE_MODE;
 
   const [plainText, setPlainText] = useState('');
   const [cipherText, setCipherText] = useState('');
   const [copyText, setCopyText] = useState("Copy cipher");
   const [error, setError] = useState('');
-  const [key, setKey] = useState(''); // New state for the key
-
-  const cipherResultRef = useRef(null); // Create a ref for the cipher result container
+  const [key, setKey] = useState('');
+  const cipherResultRef = useRef(null);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(cipherText);
@@ -26,17 +25,10 @@ const GenerateCipher = () => {
       const url = mode === "pro" 
         ? `${import.meta.env.VITE_API_URL}/generate-cipher` 
         : `http://localhost:3000/api/generate-cipher`;
-
-      console.log(`${mode} req`);
       
-      // Prepare the request payload
-      const requestData = {
-        plainText,
-        encryptionType,
-      };
+      const requestData = { plainText, encryptionType };
 
-      // Conditionally add the key for certain encryption types
-      if (encryptionType === 'Playfair' || encryptionType === 'Vigenere') { // Add more conditions for other encryption types if needed
+      if (encryptionType === 'Playfair' || encryptionType === 'Vigenere') {
         requestData.key = key;
       }
 
@@ -51,48 +43,26 @@ const GenerateCipher = () => {
   const handleError = (error) => {
     if (error.response) {
       setError(`Error: ${error.response.data.message || 'Error generating cipher. Please try again.'}`);
-      console.error('Error response data:', error.response.data);
     } else if (error.request) {
       setError('No response received from the server. Please check your network connection.');
-      console.error('Error request:', error.request);
     } else {
       setError(`Unexpected error: ${error.message}`);
-      console.error('Error message:', error.message);
     }
   };
 
-  // Effect to handle error display for 2 seconds
   useEffect(() => {
     if (error) {
-      const timer = setTimeout(() => {
-        setError(''); // Clear error after 2 seconds
-      }, 2000);
-
-      return () => clearTimeout(timer); // Clean up the timer
+      const timer = setTimeout(() => setError(''), 2000);
+      return () => clearTimeout(timer);
     }
   }, [error]);
 
-  // Use ResizeObserver to observe changes in cipher result container
-  useEffect(() => {
-    const observer = new ResizeObserver(entries => {
-      for (let entry of entries) {
-        console.log('Size changed:', entry.contentRect.width, entry.contentRect.height);
-      }
-    });
-
-    if (cipherResultRef.current) {
-      observer.observe(cipherResultRef.current);
-    }
-
-    return () => {
-      observer.disconnect(); // Clean up the observer on component unmount
-    };
-  }, [cipherResultRef]);
-
   return (
     <div className="generate-cipher-container">
-      <h2>Generate Cipher Text</h2>
-      <div className="input-with-button">
+      <h2 className="generate-title">Generate Cipher Text</h2>
+      <p className="generate-description">Enter your text and select a cipher type to encrypt.</p>
+      
+      <div className="input-section">
         <textarea
           className="cipher-input"
           value={plainText}
@@ -100,7 +70,6 @@ const GenerateCipher = () => {
           placeholder="Enter your plain text here..."
         />
         
-        {/* Conditionally render key input for specific encryption types */}
         <input
           type="text"
           className="key-input"
@@ -108,30 +77,25 @@ const GenerateCipher = () => {
           onChange={(e) => setKey(e.target.value)}
           placeholder="Enter key if needed"
         />
-
-        <div className='req-button'>
+        
+        <div className="button-group">
           <button onClick={() => handleGenerate('Caesar')} className="generate-button">Caesar</button>
           <button onClick={() => handleGenerate('Playfair')} className="generate-button">Playfair</button>
           <button onClick={() => handleGenerate('Vigenere')} className="generate-button">Vigenere</button>
-
         </div>
       </div>
 
-      {error && <div className="error-message">{error}</div>} {/* Display error message */}
+      {error && <div className="error-message">{error}</div>}
 
-      <div className='cipher-container'>
-        {cipherText && (
-          <div className="cipher-result" ref={cipherResultRef}>
-            <div className="cipher-header">
-              <h2>Cipher Text:</h2>
-              <button className="copy-button" onClick={handleCopy}>
-                {copyText}
-              </button>
-            </div>
-            <pre className="cipher-output">{cipherText}</pre>
+      {cipherText && (
+        <div className="cipher-result" ref={cipherResultRef}>
+          <div className="cipher-header">
+            <h2>Cipher Text:</h2>
+            <button className="copy-button" onClick={handleCopy}>{copyText}</button>
           </div>
-        )}
-      </div>
+          <pre className="cipher-output">{cipherText}</pre>
+        </div>
+      )}
     </div>
   );
 };
