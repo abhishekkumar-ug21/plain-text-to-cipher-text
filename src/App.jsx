@@ -4,7 +4,7 @@ import Home from './components/Home';
 import About from './components/About';
 import Contact from './components/Contact';
 import GenerateCipher from './components/GenerateCipher';
-import Greeting from './components/Greeting'; // Import your Greeting component
+import Greeting from './components/Greeting/Greeting'; // Import your Greeting component
 
 function App() {
   return (
