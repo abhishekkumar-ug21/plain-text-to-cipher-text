@@ -10,6 +10,7 @@ const GenerateCipher = () => {
   const [copyText, setCopyText] = useState("Copy cipher");
   const [error, setError] = useState('');
   const [key, setKey] = useState('');
+  const [isLoading, setIsLoading] = useState(false); // Loader state
   const cipherResultRef = useRef(null);
 
   const handleCopy = () => {
@@ -22,6 +23,7 @@ const GenerateCipher = () => {
 
   const handleGenerate = async (encryptionType) => {
     try {
+      setIsLoading(true); // Start loading
       const url = mode === "pro" 
         ? `${import.meta.env.VITE_API_URL}/generate-cipher` 
         : `http://localhost:3000/api/generate-cipher`;
@@ -34,9 +36,11 @@ const GenerateCipher = () => {
 
       const response = await axios.post(url, requestData);
       setCipherText(response.data.cipherText);
-      setError(''); 
+      setError('');
     } catch (error) {
       handleError(error);
+    } finally {
+      setIsLoading(false); // Stop loading
     }
   };
 
@@ -79,11 +83,31 @@ const GenerateCipher = () => {
         />
         
         <div className="button-group">
-          <button onClick={() => handleGenerate('Caesar')} className="generate-button">Caesar</button>
-          <button onClick={() => handleGenerate('Playfair')} className="generate-button">Playfair</button>
-          <button onClick={() => handleGenerate('Vigenere')} className="generate-button">Vigenere</button>
+          <button 
+            onClick={() => handleGenerate('Caesar')} 
+            className="generate-button"
+            disabled={isLoading} // Disable button while loading
+          >
+            Caesar
+          </button>
+          <button 
+            onClick={() => handleGenerate('Playfair')} 
+            className="generate-button"
+            disabled={isLoading} // Disable button while loading
+          >
+            Playfair
+          </button>
+          <button 
+            onClick={() => handleGenerate('Vigenere')} 
+            className="generate-button"
+            disabled={isLoading} // Disable button while loading
+          >
+            Vigenere
+          </button>
         </div>
       </div>
+
+      {isLoading && <div className="loader">Loading... <div>may take 1 to 2 min for the first time as backend server may be not start , so please wait unitll it started <strong>backend sever deployed on the render</strong></div> </div>} {/* Loader element */}
 
       {error && <div className="error-message">{error}</div>}
 
