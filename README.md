@@ -27,7 +27,7 @@ VITE_API_URL=https://b-gct.onrender.com/api
 ```
 ```javascript
 REACT_APP_API_URL=https://b-gct.onrender.com/api
-``
+```
 
 ```javascript
 npm run dev
